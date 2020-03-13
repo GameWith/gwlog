@@ -1,0 +1,11 @@
+# intellij
+.idea
+
+# osx
+.DS_Store
+
+# tests
+coverage
+
+# keep
+!.gitkeep

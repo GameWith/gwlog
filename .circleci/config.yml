@@ -1,0 +1,34 @@
+version: 2.1
+
+# machines
+executors:
+  default:
+    docker:
+      - image: circleci/golang:1.13.4
+    working_directory: ~/go/src/github.com/GameWith/gwlog
+
+# tasks
+jobs:
+  test_and_build:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - run:
+          name: setup
+          command: make setup
+      - run:
+          name: run vet
+          command: make vet
+      - run:
+          name: run lint
+          command: make lint
+      - run:
+          name: run unit test
+          command: make test
+
+# Work flows...
+workflows:
+  workflow:
+    jobs:
+      - test_and_build
