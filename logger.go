@@ -22,6 +22,9 @@ Usage
 	}).Info("aaa")
 	// Output: {"hoge":"hoge","level":"INFO","message":"aaa","time":"2000-01-01T00:00:00+09:00"}
 
+	// Type
+	logger.Type("APP").Info("aaa")
+	// Output: {"type":"APP","level":"INFO","message":"aaa","time":"2000-01-01T00:00:00+09:00"}
 */
 package gwlog
 
@@ -67,6 +70,8 @@ type Logger interface {
 	SetLevel(v log.Lvl)
 	// SetHeader is not used
 	SetHeader(h string)
+	// Type is Set Add field
+	Type(typ string) *logrus.Entry
 	// Print writes to log at log level INFO
 	Print(i ...interface{})
 	// Println writes to log with a line break at log level INFO
@@ -191,6 +196,12 @@ func (l *logger) SetLevel(level log.Lvl) {
 }
 
 func (l *logger) SetHeader(_ string) {
+}
+
+func (l *logger) Type(typ string) *logrus.Entry {
+	return l.Logger.WithFields(logrus.Fields{
+		"type": typ,
+	})
 }
 
 func (l *logger) Print(i ...interface{}) {
